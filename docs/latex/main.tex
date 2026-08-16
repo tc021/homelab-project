@@ -1,4 +1,4 @@
-\documentclass[12pt, a4papper]{report}
+\documentclass[12pt, a4paper]{report}
 
 % Coding & language
 \usepackage[T1]{fontenc}
@@ -6,10 +6,10 @@
 \usepackage[english]{babel}
 \usepackage{lmodern}
 
-%Page
-\usepackage[a4papper, margin=2.5cm]{geometry}
+% Page
+\usepackage[a4paper, margin=2.5cm]{geometry}
 
-% Graph and diagrams
+% Graphs and diagrams
 \usepackage{graphicx}
 \usepackage{float}
 \usepackage{tikz}
@@ -19,7 +19,7 @@
 \usepackage{longtable}
 \usepackage{array}
 
-% Syntax and bash
+% Syntax and Bash
 \usepackage{xcolor}
 \usepackage{listings}
 
@@ -35,8 +35,8 @@
 }
 
 \title{
-    \textbf{Homelab project}\\
-    \large Networks, databases, automatization and Machine Learning 
+    \textbf{Homelab Project}\\
+    \large Networks, Databases, Automation and Machine Learning
 }
 
 \author{Adam Sypnik}
@@ -48,26 +48,25 @@
 
 \tableofcontents
 
-\addcontentsline{toc}{secunit}{Introduction}
 \chapter{Introduction}
-\input{chapters/01-inteoduction.tex}
+\input{chapters/01-introduction.tex}
 
-\chapter{Architekture}
+\chapter{Architecture}
 \input{chapters/02-architecture.tex}
 
-\chapter{Virtual enviroment}
-\input{}
+\chapter{Virtual Environment}
+\input{chapters/03-virtualization.tex}
 
 \chapter{Ubuntu Installation}
-\input{}
+\input{chapters/04-ubuntu-installatio.tex}
 
 \chapter{VirtualBox Guest Additions}
-\input{}
+\input{chapters/05-guest-additions.tex}
 
-\chapter{Basic Linux Configutation}
-\input{}
+\chapter{Basic Linux Configuration}
+\input{chapters/06-linux-configuration.tex}
 
-\chapter{network Configuration}
-\input{}
+\chapter{Network Configuration}
+\input{chapters/07-networking.tex}
 
 \end{document}
