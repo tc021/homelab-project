@@ -1,4 +1,44 @@
-\section{VirtaulBox Guest Additions}
+\section{VirtualBox Guest Additions}
 
-\a Opis czym i po co jest VirtualBox Guest Additions
+After installing the operating system, VirtualBox Guest Additions were configured.
 
+Guest Additions provide better integration of the guest operating system
+with the virtualization platform, including support for dynamic resolution
+and additional communication mechanisms between the host and the guest operating system.
+
+Before installation, the packages required to build kernel modules were prepared.
+
+\begin{lstlisting}[style=terminal]
+sudo apt install build-essential dkms linux-headers-$(uname -r)
+\end{lstlisting}
+
+The Guest Additions image was then mounted as a virtual
+optical drive.
+
+During installation, it was found that the system mounted the media in the
+\texttt{/run} directory, instead of the initially expected \texttt{/media/\$USER}.
+
+The location of the mounted filesystem was verified using
+the \texttt{findmnt} tool.
+
+The correct operation of the VirtualBox modules was checked with the command:
+
+\begin{lstlisting}[style=terminal]
+lsmod | grep vbox
+\end{lstlisting}
+
+Among others, the \texttt{vboxguest} module was active in the system.
+
+\section{Base Snapshot}
+
+After completing the basic installation and configuration of Guest Additions,
+a snapshot of the virtual machine was created:
+
+\begin{center}
+\texttt{01 - Clean Base}
+\end{center}
+
+The snapshot serves as a restore point for a clean and functional system before
+proceeding with further configuration experiments.
+
+The snapshot is not intended as a backup mechanism for the project.
