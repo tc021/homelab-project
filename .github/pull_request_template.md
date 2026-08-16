@@ -19,6 +19,7 @@ Describe how the changes were verified.
 - [ ] Configuration tested
 - [ ] Existing functionality verified
 - [ ] Documentation updated
+- [ ] Not required
 
 ## Security impact
 
