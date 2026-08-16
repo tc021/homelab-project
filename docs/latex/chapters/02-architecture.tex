@@ -1,31 +1,48 @@
-\section{Architektura początkowa}
+\section{Initial Architecture}
 
-Pierwsza maszyna wirtualan została stworzona do nauki or jako środowisko dewelopcyjne.
+The first component of the environment is a host computer running Windows,
+on which Oracle VirtualBox has been installed.
+
+The first virtual machine was set up for learning Linux
+and as a development environment.
+
+The initial architecture can be represented as follows:
 
 \begin{lstlisting}[style=terminal]
-    Windows Host
-        |
-        +-- VirtualBox
+Windows Host
+    |
+    +-- VirtualBox
+          |
+          +-- Ubuntu Desktop
                 |
-                +-- Unbuntu Desktop
-                    |
-                    +-- inux Administration
-                    +-- etworks
+                +-- Linux administration
+                +-- Networking
+                +-- Development
+                +-- Databases
+                +-- Automation
+                +-- Machine Learning
+                +-- Game Servers
 \end{lstlisting}
 
-\section{Założenie bezpieczeństwa}
+The architecture is intentionally simplified. In subsequent stages of the project,
+individual functions will be separated into distinct virtual machines,
+containers, and network segments.
 
-Środowisko początkowo jest traktowane jako sieć Laboratoryjna.
-Nie zakłada się jednak, że architektura będzie rozwiązaniem docelowym.
+\section{Security Assumptions}
 
-W szczególności serwer gier.
+The environment is initially treated as a laboratory network.
+However, it is not assumed that this architecture will be the final solution.
 
-Docelowa archiektura powinna umożliwić podział co najmniej na segmenty:
+In particular, game servers, which may be accessible
+from the Internet in the future, should be separated from the administrative infrastructure
+and data storage services.
+
+The target architecture should allow for division into at least the following segments:
 
 \begin{itemize}
-    \item Zarządania
-    \item infrastruktury laboratoryjnym
-    \item Baz danych
-    \item Autoamtyki i IoT
-    \item Serwerów Gier
+    \item management,
+    \item laboratory infrastructure,
+    \item databases,
+    \item automation and IoT,
+    \item game servers.
 \end{itemize}

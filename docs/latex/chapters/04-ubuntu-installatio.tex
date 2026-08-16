@@ -1,8 +1,24 @@
-\section{OS Selection}
+\section{Choosing an Operating System}
 
-\a dlaczego ten system operacyjny
+Ubuntu Desktop 24.04 LTS was chosen as the first operating system.
 
-\section{Users}
+Although Ubuntu Server would be a more suitable solution
+for the target servers, the Desktop version was chosen for the initial phase.
 
-Konfiguracja użytkowników i dostępów
+This decision stemmed from the need to reacquaint ourselves with the
+Linux environment while maintaining access to a graphical
+user interface.
 
+Later in the project, we plan to use Ubuntu Server
+for machines performing typical server functions.
+
+\section{User Account}
+
+A local user account was created during installation.
+
+Integration with Active Directory was not used because, at this
+stage, the machine is not a member of a domain.
+
+System administration is performed using a regular user account
+and the \texttt{sudo} mechanism, rather than working directly
+on the \texttt{root} account on a daily basis.
