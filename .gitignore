@@ -11,6 +11,7 @@
 *.lot
 *.fls
 *.fcb_latexmk
+*.fdb_latexmk
 *.synctex.gz
 
 #generated PDF

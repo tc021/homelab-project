@@ -1,0 +1,72 @@
+\documentclass[12pt, a4paper]{report}
+
+% Coding & language
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{lmodern}
+
+% Page
+\usepackage[a4paper, margin=2.5cm]{geometry}
+
+% Graphs and diagrams
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{tikz}
+
+% Tables
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+
+% Syntax and Bash
+\usepackage{xcolor}
+\usepackage{listings}
+
+% Hyperlinks
+\usepackage[hidelinks]{hyperref}
+
+\lstdefinestyle{terminal}{
+    basicstyle=\ttfamily\small,
+    breaklines=true,
+    frame=single,
+    columns=fullflexible,
+    keepspaces=true
+}
+
+\title{
+    \textbf{Homelab Project}\\
+    \large Networks, Databases, Automation and Machine Learning
+}
+
+\author{Adam Sypnik}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+
+\chapter{Introduction}
+\input{chapters/01-introduction.tex}
+
+\chapter{Architecture}
+\input{chapters/02-architecture.tex}
+
+\chapter{Virtual Environment}
+\input{chapters/03-virtualization.tex}
+
+\chapter{Ubuntu Installation}
+\input{chapters/04-ubuntu-installatio.tex}
+
+\chapter{VirtualBox Guest Additions}
+\input{chapters/05-guest-additions.tex}
+
+\chapter{Basic Linux Configuration}
+\input{chapters/06-linux-configuration.tex}
+
+\chapter{Network Configuration}
+\input{chapters/07-networking.tex}
+
+\end{document}
