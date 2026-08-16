@@ -1,0 +1,58 @@
+\documentclass[12pt, a4papper]{report}
+
+% Coding & language
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{lmodern}
+
+%Page
+\usepackage[a4papper, margin=2.5cm]{geometry}
+
+% Graph and diagrams
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{tikz}
+
+% Tables
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+
+% Syntax and bash
+\usepackage{xcolor}
+\usepackage{listings}
+
+% Hyperlinks
+\usepackage[hidelinks]{hyperref}
+
+\lstdefinestyle{terminal}{
+    basicstyle=\ttfamily\small,
+    breaklines=true,
+    frame=single,
+    columns=fullflexible,
+    keepspaces=true
+}
+
+\title{
+    \textbf{Homelab project}\\
+    \large Networks, databases, automatization and Machine Learning 
+}
+
+\author{Adam Sypnik}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+
+\addcontentsline{toc}{secunit}{Introduction}
+\chapter{Introduction}
+\input{chapters/01-inteoduction.tex}
+
+\chapter{Architekture}
+\input{chapters/02-architecture.tex}
+
+\end{document}
