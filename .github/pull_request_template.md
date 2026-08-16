@@ -29,3 +29,11 @@ or externally exposed services?
 
 - [ ] Documentation updated
 - [ ] No documentation changes required
+
+## Security checklist
+
+- [ ] No passwords, tokens, API keys or private keys are included
+- [ ] No `.env` files containing secrets are included
+- [ ] Public infrastructure addresses have been sanitized
+- [ ] MAC addresses and SSH fingerprints are redacted where unnecessary
+- [ ] Configuration does not unintentionally expose a new service
