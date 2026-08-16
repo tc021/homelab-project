@@ -1,5 +1,237 @@
-\section{Network basic configuration}
+\section{Network Verification and Testing}
 
-\a Opis początkowej konfuguracji sieci komputerowej
+After configuring the Host-Only network, a series of tests was performed
+to verify addressing, routing, Layer 2 connectivity, Internet access,
+and the identity of the communicating hosts.
 
-\
+\subsection{Interface Configuration Verification}
+
+The network configuration of the Ubuntu virtual machine was verified using:
+
+\begin{lstlisting}[style=terminal]
+ip -br addr
+\end{lstlisting}
+
+The expected configuration was:
+
+\begin{lstlisting}[style=terminal]
+lo       UNKNOWN   127.0.0.1/8
+enp0s3   UP        10.0.2.15/24
+enp0s8   UP        192.168.100.10/24
+\end{lstlisting}
+
+The result confirms that the virtual machine has two active network
+interfaces. The \texttt{enp0s3} interface is connected to the VirtualBox
+NAT network, while \texttt{enp0s8} provides connectivity to the
+Host-Only laboratory network.
+
+\subsection{Routing Verification}
+
+The Linux routing table was inspected using:
+
+\begin{lstlisting}[style=terminal]
+ip route
+\end{lstlisting}
+
+The expected routes include:
+
+\begin{lstlisting}[style=terminal]
+default via 10.0.2.2 dev enp0s3
+10.0.2.0/24 dev enp0s3
+192.168.100.0/24 dev enp0s8
+\end{lstlisting}
+
+The default route remains assigned to the NAT interface. Therefore,
+traffic addressed to external networks is sent through \texttt{enp0s3},
+while traffic addressed to the \texttt{192.168.100.0/24} laboratory
+network is sent directly through \texttt{enp0s8}.
+
+No default gateway was configured for the Host-Only interface in order
+to prevent the management network from interfering with Internet routing.
+
+\subsection{Host-to-VM Connectivity Test}
+
+Connectivity from the Windows host to the Ubuntu virtual machine was
+tested using ICMP:
+
+\begin{lstlisting}[style=terminal]
+ping 192.168.100.10
+\end{lstlisting}
+
+A successful response confirms that a host using the
+\texttt{192.168.100.10} address is reachable from Windows through the
+Host-Only network.
+
+It is important to note that an ICMP response alone does not prove the
+identity of the responding machine. Another device configured with the
+same IP address could theoretically respond to the request.
+
+\subsection{VM-to-Host Connectivity Test}
+
+Connectivity in the opposite direction was tested from Ubuntu:
+
+\begin{lstlisting}[style=terminal]
+ping -c 4 192.168.100.1
+\end{lstlisting}
+
+The \texttt{-c 4} parameter limits the test to four ICMP Echo Requests.
+
+A successful test should report:
+
+\begin{lstlisting}[style=terminal]
+4 packets transmitted, 4 received, 0% packet loss
+\end{lstlisting}
+
+This confirms bidirectional IP connectivity between the Ubuntu virtual
+machine and the Windows Host-Only interface.
+
+\subsection{Layer 2 Verification}
+
+To verify which network interface responds to the configured IP address,
+the MAC address of the Ubuntu Host-Only interface was inspected:
+
+\begin{lstlisting}[style=terminal]
+ip link show enp0s8
+\end{lstlisting}
+
+The command displays the MAC address assigned to the virtual network
+interface.
+
+After sending traffic to the virtual machine, the ARP table on Windows
+was inspected using:
+
+\begin{lstlisting}[style=terminal]
+arp -a
+\end{lstlisting}
+
+The MAC address associated with \texttt{192.168.100.10} was compared
+with the MAC address reported directly by the \texttt{enp0s8} interface.
+
+Matching addresses provide additional confirmation that traffic sent to
+\texttt{192.168.100.10} reaches the expected VirtualBox network interface.
+
+On Ubuntu, the corresponding neighbor information can be inspected using:
+
+\begin{lstlisting}[style=terminal]
+ip neigh show
+\end{lstlisting}
+
+This command displays mappings between IP addresses and Layer 2 MAC
+addresses known to the Linux networking stack.
+
+\subsection{SSH Host Identity Verification}
+
+ICMP and ARP tests verify network connectivity and Layer 2 address
+resolution, but they do not provide cryptographic verification of the
+remote host identity.
+
+For this reason, SSH host key verification was additionally used.
+
+The ED25519 SSH host key fingerprint of the Ubuntu machine can be
+displayed locally using:
+
+\begin{lstlisting}[style=terminal]
+sudo ssh-keygen -lf /etc/ssh/ssh_host_ed25519_key.pub
+\end{lstlisting}
+
+The virtual machine can then be accessed from Windows using:
+
+\begin{lstlisting}[style=terminal]
+ssh tc021@192.168.100.10
+\end{lstlisting}
+
+During the first connection, the SSH client displays the host key
+fingerprint presented by the remote server.
+
+The fingerprint should be compared with the value obtained directly
+from the Ubuntu virtual machine before accepting the SSH host key.
+
+Matching fingerprints provide cryptographic confirmation that the SSH
+server reachable at \texttt{192.168.100.10} is the expected Ubuntu
+virtual machine.
+
+After establishing the SSH connection, the identity and network
+configuration of the remote machine can be additionally verified using:
+
+\begin{lstlisting}[style=terminal]
+hostname
+ip -br addr
+\end{lstlisting}
+
+\subsection{Internet Connectivity Test}
+
+Internet connectivity through the NAT interface was verified separately.
+
+First, connectivity based purely on IP routing was tested:
+
+\begin{lstlisting}[style=terminal]
+ping -c 4 8.8.8.8
+\end{lstlisting}
+
+A successful response confirms that the virtual machine can reach an
+external IP address through its default route.
+
+DNS resolution was then verified using:
+
+\begin{lstlisting}[style=terminal]
+ping -c 4 github.com
+\end{lstlisting}
+
+If the first test succeeds but the second fails, the network route may
+be operational while DNS name resolution is incorrectly configured.
+
+\newpage
+\subsection{Test Summary}
+
+The network verification process validates several independent layers
+of the configuration:
+
+\begin{itemize}
+    \item \texttt{ip -br addr} verifies interface addressing,
+    \item \texttt{ip route} verifies routing decisions,
+    \item \texttt{ping} verifies IP reachability,
+    \item \texttt{arp -a} and \texttt{ip neigh} verify IP-to-MAC mappings,
+    \item SSH host fingerprints provide cryptographic host identity
+          verification,
+    \item external IP connectivity verifies Internet routing,
+    \item domain-based connectivity verifies DNS resolution.
+\end{itemize}
+
+
+\begin{table}[H]
+\centering
+\caption{Network configuration verification}
+\begin{tabular}{lll}
+\toprule
+\textbf{Test} & \textbf{Expected result} & \textbf{Status} \\
+\midrule
+Ubuntu interface configuration &
+\texttt{192.168.100.10/24} on \texttt{enp0s8} &
+PASS \\
+
+Windows $\rightarrow$ Ubuntu ICMP &
+Ubuntu responds &
+PASS \\
+
+Ubuntu $\rightarrow$ Windows ICMP &
+Windows responds &
+PASS \\
+
+ARP/MAC verification &
+MAC addresses match &
+PASS \\
+
+SSH fingerprint verification &
+Fingerprints match &
+PASS \\
+
+External IP connectivity &
+External host reachable &
+PASS \\
+
+DNS resolution &
+Domain name resolves &
+PASS \\
+\bottomrule
+\end{tabular}
+\end{table}
