@@ -1,75 +1,265 @@
-\documentclass[12pt, a4paper]{report}
+\documentclass[12pt,a4paper]{report}
 
-% Coding & language
+% =========================================================
+% Encoding and language
+% =========================================================
+
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
 \usepackage[english]{babel}
 \usepackage{lmodern}
 
-% Page
-\usepackage[a4paper, margin=2.5cm]{geometry}
+% =========================================================
+% Page layout
+% =========================================================
 
-% Graphs and diagrams
+\usepackage[
+    a4paper,
+    top=2.5cm,
+    bottom=2.5cm,
+    left=2.8cm,
+    right=2.8cm
+]{geometry}
+
+\usepackage{setspace}
+\onehalfspacing
+
+\usepackage{parskip}
+
+% =========================================================
+% Graphics and diagrams
+% =========================================================
+
 \usepackage{graphicx}
 \usepackage{float}
 \usepackage{tikz}
 
+\graphicspath{
+    {images/}
+    {images/architecture/}
+    {images/screenshots/}
+    {diagrams/}
+}
+
+% =========================================================
 % Tables
+% =========================================================
+
 \usepackage{booktabs}
 \usepackage{longtable}
 \usepackage{array}
+\usepackage{tabularx}
 
-% Syntax and Bash
+% =========================================================
+% Source code and terminal output
+% =========================================================
+
 \usepackage{xcolor}
 \usepackage{listings}
 
-% Hyperlinks
-\usepackage[hidelinks]{hyperref}
+\definecolor{codegray}{gray}{0.95}
 
 \lstdefinestyle{terminal}{
     basicstyle=\ttfamily\small,
-    breaklines=true,
+    backgroundcolor=\color{codegray},
     frame=single,
+    breaklines=true,
     columns=fullflexible,
-    keepspaces=true
+    keepspaces=true,
+    showstringspaces=false,
+    tabsize=4
 }
 
+\lstdefinestyle{code}{
+    basicstyle=\ttfamily\small,
+    backgroundcolor=\color{codegray},
+    frame=single,
+    breaklines=true,
+    columns=fullflexible,
+    keepspaces=true,
+    showstringspaces=false,
+    numbers=left,
+    numberstyle=\tiny,
+    numbersep=8pt,
+    tabsize=4
+}
+
+% =========================================================
+% Lists and descriptions
+% =========================================================
+
+\usepackage{enumitem}
+
+\setlist[itemize]{
+    topsep=4pt,
+    itemsep=2pt
+}
+
+\setlist[enumerate]{
+    topsep=4pt,
+    itemsep=2pt
+}
+
+% =========================================================
+% Links and references
+% =========================================================
+
+\usepackage[
+    hidelinks
+]{hyperref}
+
+\usepackage{bookmark}
+
+% =========================================================
+% Headers and footers
+% =========================================================
+
+\usepackage{fancyhdr}
+
+\pagestyle{fancy}
+\fancyhf{}
+
+\fancyhead[L]{SypIT Homelab}
+\fancyhead[R]{Infrastructure Documentation}
+
+\fancyfoot[C]{\thepage}
+
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0pt}
+
+% =========================================================
+% Better chapter appearance
+% =========================================================
+
+\usepackage{titlesec}
+
+\titleformat{\chapter}
+    {\normalfont\huge\bfseries}
+    {\thechapter.}
+    {1em}
+    {}
+
+\titlespacing*{\chapter}
+    {0pt}
+    {-20pt}
+    {25pt}
+
+% =========================================================
+% Document metadata
+% =========================================================
+
 \title{
-    \textbf{Homelab Project}\\
-    \large Networks, Databases, Automation and Machine Learning
+    \textbf{SypIT Homelab}\\[0.5cm]
+    \Large Infrastructure, Networking, Automation and Data Platform
 }
 
 \author{Adam Sypnik}
+
 \date{\today}
+
+% =========================================================
+% Document
+% =========================================================
 
 \begin{document}
 
-\maketitle
+% =========================================================
+% Title page
+% =========================================================
+
+\begin{titlepage}
+    \centering
+
+    \vspace*{3cm}
+
+    {\Huge\bfseries SypIT Homelab\par}
+
+    \vspace{0.8cm}
+
+    {\Large
+    Infrastructure, Networking, Automation\\
+    and Data Platform
+    \par}
+
+    \vspace{2cm}
+
+    {\large Technical Documentation\par}
+
+    \vfill
+
+    {\large Adam Sypnik\par}
+
+    \vspace{0.5cm}
+
+    {\large \today\par}
+
+    \vspace{2cm}
+\end{titlepage}
+
+% =========================================================
+% Front matter
+% =========================================================
+
+\pagenumbering{roman}
 
 \tableofcontents
+\clearpage
+
+\listoffigures
+\clearpage
+
+\listoftables
+\clearpage
+
+% =========================================================
+% Main content
+% =========================================================
+
+\pagenumbering{arabic}
 
 \chapter{Introduction}
-\input{chapters/01-introduction.tex}
+\input{chapters/01-introduction}
+
+\chapter{Requirements}
+\input{chapters/02-requirements}
 
 \chapter{Architecture}
-\input{chapters/02-architecture.tex}
+\input{chapters/03-architecture}
 
-\chapter{Virtual Environment}
-\input{chapters/03-virtualization.tex}
+\chapter{Naming and Addressing}
+\input{chapters/04-naming-addressing}
 
-\chapter{Ubuntu Installation}
-\input{chapters/04-ubuntu-installatio.tex}
+\chapter{Virtualization}
+\input{chapters/05-virtualization}
 
-\chapter{VirtualBox Guest Additions}
-\input{chapters/05-guest-additions.tex}
+\chapter{Operating Systems}
+\input{chapters/06-operating-systems}
 
-\chapter{Basic Linux Configuration}
-\input{chapters/06-linux-configuration.tex}
+\chapter{Networking}
+\input{chapters/07-networking}
 
-\chapter{Network Configuration}
-\input{chapters/07-networking.tex}
+\chapter{Security}
+\input{chapters/08-security}
 
-\chapter{Version Control and Repository management}
-\input{chapters/08-version-control.tex}
+\chapter{Version Control and Repository Management}
+\input{chapters/09-version-control}
+
+\chapter{Project Roadmap}
+\input{chapters/10-roadmap}
+
+% =========================================================
+% Appendices
+% =========================================================
+
+\appendix
+
+\chapter{Command Reference}
+\input{appendices/commands}
+
+\chapter{Troubleshooting}
+\input{appendices/troubleshooting}
+
+\chapter{Architecture Decisions}
+\input{appendices/decisions}
 
 \end{document}
