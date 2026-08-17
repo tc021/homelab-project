@@ -1,0 +1,38 @@
+\section{Operating System Selection}
+
+Ubuntu Desktop 24.04 LTS was selected for the initial development virtual
+machine.
+
+Although Ubuntu Server is expected to be used for future server workloads,
+the Desktop edition was intentionally selected during the bootstrap phase
+to provide a graphical environment while Linux administration skills
+are being refreshed.
+
+\section{System Administration Model}
+
+Daily administration is performed using a standard user account.
+
+Administrative operations are executed through the \texttt{sudo} mechanism
+instead of maintaining a permanent root shell.
+
+\section{Base Tooling}
+
+The initial system configuration includes administrative and diagnostic
+tools such as:
+
+\begin{itemize}
+    \item Git,
+    \item curl,
+    \item wget,
+    \item htop,
+    \item tree,
+    \item Vim,
+    \item Nano,
+    \item jq,
+    \item dnsutils,
+    \item traceroute,
+    \item net-tools.
+\end{itemize}
+
+VirtualBox Guest Additions were installed in order to improve integration
+between the host system and the Ubuntu guest.

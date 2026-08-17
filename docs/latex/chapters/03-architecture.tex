@@ -1,0 +1,51 @@
+\section{High-Level Architecture}
+
+The homelab architecture is designed as a layered infrastructure platform.
+
+The main architectural layers are:
+
+\begin{enumerate}
+    \item Hardware,
+    \item Virtualization,
+    \item Networking,
+    \item Operating Systems,
+    \item Containerization,
+    \item Platform Services,
+    \item Applications,
+    \item Data Platform,
+    \item Automation,
+    \item Observability,
+    \item Security.
+\end{enumerate}
+
+This layered approach allows individual components to evolve independently
+while maintaining clear dependencies between infrastructure layers.
+
+\section{Target Architecture}
+
+The final environment is expected to contain multiple logical security zones.
+
+\begin{verbatim}
+                         Internet
+                            |
+                      Router/Firewall
+                            |
+          +-----------------+-----------------+
+          |                 |                 |
+         DMZ               VPN               LAN
+          |                                   |
+     +----+----+                     +--------+--------+
+     |    |    |                     |        |        |
+    WWW  File Games                MGMT    Servers    IoT
+                                            |
+                                       +----+----+
+                                       |         |
+                                      DB       Apps
+                                       |
+                                  Data Platform
+                                       |
+                               Machine Learning
+\end{verbatim}
+
+Publicly accessible services should not have unrestricted access to
+management infrastructure or database systems.

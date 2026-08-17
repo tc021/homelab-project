@@ -1,0 +1,45 @@
+\section{Virtualization Platform}
+
+Oracle VirtualBox is used as the initial virtualization platform.
+
+Virtualization allows isolated systems to be created without requiring
+dedicated physical hardware for each workload.
+
+\section{Initial Virtual Machine}
+
+The first virtual machine is based on Ubuntu Desktop and acts as the initial
+development and administrative workstation.
+
+Its main responsibilities include:
+
+\begin{itemize}
+    \item Linux administration,
+    \item network experimentation,
+    \item Git repository management,
+    \item development tooling,
+    \item infrastructure testing.
+\end{itemize}
+
+\section{Virtual Network Interfaces}
+
+The virtual machine uses two network adapters.
+
+The first adapter operates in NAT mode and provides Internet access.
+
+The second adapter operates in Host-Only mode and provides dedicated
+communication between the host system and laboratory virtual machines.
+
+The current network model is therefore:
+
+\begin{verbatim}
+Ubuntu VM
+   |
+   +-- Adapter 1: NAT
+   |       |
+   |       +-- Internet access
+   |
+   +-- Adapter 2: Host-Only
+           |
+           +-- Host communication
+           +-- Laboratory VM communication
+\end{verbatim}

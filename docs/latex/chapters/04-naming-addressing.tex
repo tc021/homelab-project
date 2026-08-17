@@ -1,0 +1,53 @@
+\section{Naming Convention}
+
+Infrastructure hosts follow the naming format:
+
+\begin{center}
+\texttt{sypit-<environment>-<role>-<number>}
+\end{center}
+
+Examples:
+
+\begin{verbatim}
+sypit-lab-dev-01
+sypit-lab-db-01
+sypit-lab-web-01
+sypit-lab-game-01
+sypit-lab-iot-01
+sypit-lab-mon-01
+\end{verbatim}
+
+The \texttt{environment} component identifies the environment, while
+\texttt{role} represents the primary function of the host.
+
+\section{Internal DNS Naming}
+
+The planned private namespace is:
+
+\begin{center}
+\texttt{sypit.home.arpa}
+\end{center}
+
+Example records:
+
+\begin{verbatim}
+grafana.sypit.home.arpa
+db01.sypit.home.arpa
+mqtt.sypit.home.arpa
+game01.sypit.home.arpa
+\end{verbatim}
+
+A public SypIT domain may later be used for externally accessible services.
+
+\section{Initial Addressing}
+
+The initial VirtualBox laboratory network uses:
+
+\begin{center}
+\texttt{192.168.100.0/24}
+\end{center}
+
+This network is intended for initial host-to-VM and VM-to-VM communication.
+
+The addressing scheme will be expanded when network segmentation and VLANs
+are introduced.
