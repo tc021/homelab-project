@@ -1,0 +1,384 @@
+\section{Security Overview}
+
+Security is treated as an integral part of the SypIT Homelab architecture
+rather than as a separate component added after infrastructure deployment.
+
+The environment is designed according to the principle of defence in depth.
+No single security mechanism is considered sufficient to protect the entire
+infrastructure. Instead, multiple independent security controls will be
+implemented across network, system, application, identity, and data layers.
+
+The security architecture will evolve together with the infrastructure.
+Controls described in this chapter therefore represent both currently
+implemented mechanisms and security requirements for future development
+phases.
+
+
+\section{Security Principles}
+
+The project follows several fundamental security principles.
+
+\subsection{Least Privilege}
+
+Users, applications, and services should receive only the permissions
+required to perform their intended functions.
+
+Administrative privileges should not be used for regular operations when
+lower privileges are sufficient.
+
+\subsection{Deny by Default}
+
+Network communication and access to resources should be denied unless
+explicitly permitted.
+
+This principle will be applied particularly to firewall rules,
+network segmentation, database access, and service authorization.
+
+\subsection{Defence in Depth}
+
+Security controls should exist at multiple independent layers.
+
+A failure or misconfiguration of one control should therefore not
+automatically expose the entire infrastructure.
+
+The planned security layers include:
+
+\begin{itemize}
+    \item perimeter firewalling,
+    \item network segmentation,
+    \item host-based firewalls,
+    \item operating system hardening,
+    \item identity and access management,
+    \item application-level authorization,
+    \item encrypted communication,
+    \item monitoring and logging,
+    \item backup and recovery mechanisms.
+\end{itemize}
+
+\subsection{Separation of Duties}
+
+Infrastructure components with different security requirements should
+be separated whenever practical.
+
+For example, publicly accessible services should not share unrestricted
+access with management systems or database infrastructure.
+
+
+\section{Network Security}
+
+Network security is one of the primary security layers of the project.
+
+The initial laboratory network is intentionally simple. As the environment
+grows, the network architecture will be divided into multiple logical
+security zones.
+
+Planned zones include:
+
+\begin{itemize}
+    \item Management,
+    \item Servers,
+    \item Databases,
+    \item IoT and Robotics,
+    \item Game Servers,
+    \item DMZ,
+    \item Client Devices.
+\end{itemize}
+
+Communication between these zones will be controlled by routing and
+firewall policies.
+
+The target communication model follows the principle:
+
+\begin{center}
+\texttt{deny by default, allow by exception}
+\end{center}
+
+For example, a web application located in the DMZ may be permitted to
+communicate with a specific backend service or database port, while direct
+access from the DMZ to the management network should remain prohibited.
+
+
+\section{DMZ and Public Services}
+
+Services accessible from external networks represent a higher security risk
+than internal services.
+
+Public-facing workloads may include:
+
+\begin{itemize}
+    \item websites,
+    \item web applications,
+    \item APIs,
+    \item file transfer services,
+    \item game servers.
+\end{itemize}
+
+These services should eventually operate inside dedicated network segments
+or a DMZ.
+
+Compromise of a public service should not provide unrestricted access to
+internal infrastructure.
+\newpage
+The intended model is:
+
+\begin{verbatim}
+                    Internet
+                       |
+                 Router/Firewall
+                       |
+                      DMZ
+                 /      |      \
+               WWW    Games    File
+                |
+          controlled access
+                |
+          Internal Services
+\end{verbatim}
+
+
+\section{Administrative Access}
+
+Administrative access should be separated from normal application traffic.
+
+Remote administration of Linux systems will primarily use SSH.
+
+Password-based remote authentication should be minimized where practical
+in favour of public-key authentication.
+
+Administrative access from external networks should eventually be provided
+through a dedicated VPN rather than by directly exposing administrative
+services to the Internet.
+
+The target model is:
+
+\begin{verbatim}
+Administrator
+      |
+     VPN
+      |
+Management Network
+      |
+     SSH
+      |
+Managed Systems
+\end{verbatim}
+
+Direct exposure of SSH, database administration interfaces, hypervisor
+management interfaces, or monitoring administration panels to the public
+Internet should be avoided.
+
+
+\section{Identity and Access Management}
+
+Access to infrastructure resources should be associated with identifiable
+users or services.
+
+Shared administrative accounts should be avoided where practical.
+
+Administrative activities should use individual accounts and privilege
+escalation mechanisms such as \texttt{sudo}.
+
+Service accounts should be separated from interactive user accounts and
+should receive only the permissions necessary for their workloads.
+
+Future development may introduce centralized identity management for
+selected infrastructure components.
+
+
+\section{Secrets Management}
+
+Sensitive information must not be stored directly in source code or
+committed to the Git repository.
+
+Examples of sensitive information include:
+
+\begin{itemize}
+    \item passwords,
+    \item API tokens,
+    \item database credentials,
+    \item private SSH keys,
+    \item private TLS keys,
+    \item application secrets,
+    \item authentication tokens.
+\end{itemize}
+
+The repository uses \texttt{.gitignore} rules to reduce the risk of
+accidentally committing common files containing secrets.
+
+However, \texttt{.gitignore} is not considered a security mechanism by
+itself.
+
+Future phases of the project will introduce centralized secrets management
+and controlled secret distribution to applications and infrastructure
+components.
+
+
+\section{Encryption and PKI}
+
+Sensitive communication should use encrypted protocols whenever possible.
+
+Examples include:
+
+\begin{itemize}
+    \item HTTPS instead of HTTP for sensitive or externally accessible traffic,
+    \item SSH instead of insecure remote shell protocols,
+    \item SFTP or FTPS where secure file transfer is required,
+    \item encrypted database connections,
+    \item VPN tunnels for remote administrative access.
+\end{itemize}
+
+The project is expected to introduce an internal Public Key Infrastructure
+(PKI) for laboratory services.
+
+This will allow practical implementation of:
+
+\begin{itemize}
+    \item Certificate Authorities,
+    \item server certificates,
+    \item client certificates,
+    \item TLS,
+    \item mutual TLS,
+    \item certificate renewal,
+    \item certificate revocation and rotation.
+\end{itemize}
+
+
+\section{Operating System Security}
+
+Linux systems should be maintained according to a consistent baseline.
+
+The security baseline will include:
+
+\begin{itemize}
+    \item regular security updates,
+    \item minimal installation of unnecessary services,
+    \item controlled administrative privileges,
+    \item host-based firewall configuration,
+    \item secure SSH configuration,
+    \item appropriate file permissions,
+    \item service isolation,
+    \item system logging,
+    \item periodic configuration review.
+\end{itemize}
+
+Server workloads should eventually use dedicated server-oriented operating
+systems rather than relying exclusively on the initial Ubuntu Desktop
+development machine.
+
+
+\section{Monitoring and Security Visibility}
+
+Security controls must provide sufficient visibility to detect abnormal
+behaviour.
+
+The project will therefore include centralized collection and analysis of
+system, application, and network information.
+
+Planned capabilities include:
+
+\begin{itemize}
+    \item centralized logging,
+    \item infrastructure metrics,
+    \item application monitoring,
+    \item network traffic analysis,
+    \item security alerts,
+    \item IDS/IPS experimentation,
+    \item audit information.
+\end{itemize}
+
+Monitoring should support both operational troubleshooting and security
+incident investigation.
+
+\newpage
+\section{Backup and Recovery}
+
+Backups are considered part of the security architecture.
+
+Critical configuration, databases, application data, and infrastructure
+state should be backed up according to defined policies.
+
+A backup is not considered reliable until its restoration procedure has
+been successfully tested.
+
+Future stages will therefore define:
+
+\begin{itemize}
+    \item backup scope,
+    \item backup frequency,
+    \item retention policies,
+    \item storage locations,
+    \item recovery procedures,
+    \item Recovery Point Objectives (RPO),
+    \item Recovery Time Objectives (RTO).
+\end{itemize}
+
+
+\section{Security Testing}
+
+The laboratory environment provides an isolated platform for controlled
+security testing.
+
+Planned experiments may include:
+
+\begin{itemize}
+    \item firewall rule validation,
+    \item network segmentation tests,
+    \item vulnerability scanning,
+    \item service exposure verification,
+    \item authentication testing,
+    \item certificate expiration scenarios,
+    \item network failure simulations,
+    \item intrusion detection experiments.
+\end{itemize}
+
+Testing should be performed only against systems belonging to the laboratory
+environment or systems for which explicit authorization has been granted.
+
+
+\section{Incident Management}
+
+Operational and security incidents should be documented in a structured
+manner.
+
+For significant incidents, the following information should be recorded:
+
+\begin{itemize}
+    \item incident description,
+    \item detection method,
+    \item affected components,
+    \item technical impact,
+    \item root cause,
+    \item remediation,
+    \item preventive actions,
+    \item lessons learned.
+\end{itemize}
+
+This process will also be used during future chaos engineering exercises,
+where selected infrastructure failures will be intentionally introduced
+to evaluate monitoring, diagnosis, and recovery procedures.
+
+
+\section{Security Development Strategy}
+
+Security mechanisms will be introduced incrementally as the infrastructure
+grows.
+
+The planned progression is:
+
+\begin{enumerate}
+    \item secure the initial Linux and virtualization environment,
+    \item establish controlled administrative access,
+    \item introduce network segmentation,
+    \item deploy firewall policies,
+    \item isolate public-facing services,
+    \item introduce VPN-based remote administration,
+    \item implement centralized secrets management,
+    \item deploy internal PKI and encrypted service communication,
+    \item centralize logs and security monitoring,
+    \item introduce IDS/IPS capabilities,
+    \item implement and test backup and disaster recovery,
+    \item perform controlled failure and security testing.
+\end{enumerate}
+
+The security architecture will be reviewed whenever new services,
+network segments, or externally accessible components are introduced.
