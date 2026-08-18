@@ -34,17 +34,24 @@ fix/network-configuration
 
 Completed work is integrated into the \texttt{main} branch using Pull Requests.
 
+\newpage
 \section{Commit Convention}
 
 Commit messages use semantic prefixes such as:
 
 \begin{verbatim}
-feat:
-fix:
-docs:
-refactor:
-test:
-chore:
+feat: Introduces a new feature, service, infrastructure component, or significant 
+      new capability.
+fix: Corrects an error, misconfiguration, or unexpected behaviour in an existing 
+     component.
+docs: Introduces changes that affect documentation without changing the behaviour 
+      of the infrastructure or application.
+refactor: Changes the internal structure of code or configuration without 
+      introducing a new feature or fixing a specific defect.
+test: Adds or modifies tests, validation procedures, or automated verification 
+      mechanisms.
+chore: Represents maintenance work that does not directly modify application or 
+       infrastructure functionality.
 \end{verbatim}
 
 Commits should represent logically coherent changes rather than large,
